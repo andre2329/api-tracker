@@ -73,3 +73,20 @@ exports.updateVisit = async (req, res) => {
         })
     }
 }
+exports.getAllVisitsByIdSeller = async (req, res) => {
+    console.log(req.req.headers.userId)
+    try {
+        let visitas = await Client.find(
+            {
+                historial: {
+                        _id:req.headers.userId
+                    }
+            })
+        res.json({visitas})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message:"Error"
+        })
+    }
+}

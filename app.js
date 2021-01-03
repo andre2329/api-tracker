@@ -19,6 +19,5 @@ if (process.env.ENV == "DEVELOPMENT")
     app.use(errorHandlers.developmentErrors)
 else
     app.use(errorHandlers.productionErrors)
-
 module.exports = app
 
