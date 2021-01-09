@@ -28,6 +28,6 @@ const User = require('./models/User')
 const Client = require('./models/Client')
 
 
-const server = app.listen(process.env.PORT,()=>{
+const server = app.listen(process.env.PORT,'0.0.0.0',()=>{
     console.log('server started on port '+process.env.PORT)
 })
