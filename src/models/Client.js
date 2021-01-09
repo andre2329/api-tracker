@@ -10,6 +10,9 @@ const clientSchema = mongoose.Schema({
     direccion:{
         type:String
     },
+    direccionExacta:{
+        type:String
+    },
     referencia:{
         type:String,
     },
@@ -58,7 +61,8 @@ const clientSchema = mongoose.Schema({
             fechaVisita: { type : Date, default: Date.now },
             latitud: {type: Number, required: true},
             longitud: {type: Number, required: true},
-            calificacion:{type:Number}
+            calificacion:{type:Number},
+            idVendedor:{type:String}
             }
         ]
     ,

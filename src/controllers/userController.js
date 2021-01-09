@@ -5,19 +5,24 @@ const jwt = require('jsonwebtoken')
 
 
 exports.register = async(req,res)=>{
-    const {name,userName,password,isSupervisor}=req.body;
+    // console.log(req.body)
+    const {name,userName,password,lastName}=req.body;
     // const emailRegex = /@gmail.com|@yahoo.com|@hotmail.com|@live.com/
 
     // if(!emailRegex.test(email)) throw "Email is not supported from your domain."
-    if(userName.lenght <4) throw "userNameLenght"
-    if(password.lenght <6) throw "passwordLenght"
+    // console.log(userName.lenght())
+    // console.log(password.lenght())
+    // console.log(typeof(userName))
+    // console.log(typeof(password))
+    if(userName.length <4) throw "userNameLenght"
+    if(password.length <6) throw "passwordLenght"
 
     const userExist = await User.findOne({
         userName,
     })
     if(userExist) throw "userNameExists"
     else{
-        const user = new User({name,userName,password:sha256(password+process.env.SALT),isSupervisor})
+        const user = new User({name,userName,password:sha256(password+process.env.SALT),isSupervisor:false,lastName})
         await user.save();
         res.json({message:"userCreated"})
     }
@@ -58,7 +63,11 @@ exports.getAllUsers = async(req,res)=>{
     const users = await User.find({isSupervisor:false})
     if(!users) throw "EmptyUsers"
     else{
-        res.json(users)
+        let respuesta = {
+            users,
+            message:'success'
+        }
+        res.json(respuesta)
         
     }
 }

@@ -1,7 +1,5 @@
 const mongoose = require("mongoose")
 const Client = mongoose.model("Client")
-
-
 exports.register = async (req, res) => {
     const { nombreComercial,
         razonSocial,
@@ -61,7 +59,9 @@ exports.updateVisit = async (req, res) => {
                     historial: {
                         latitud: req.body.latitudLast,
                         longitud: req.body.longitudLast,
-                        calificacion: req.body.calificacion
+                        calificacion: req.body.calificacion,
+                        idVendedor:req.headers.id,
+                        // fechaVisita:dateLima
                     }
                 }
             }, {useFindAndModify: false})
@@ -74,15 +74,47 @@ exports.updateVisit = async (req, res) => {
     }
 }
 exports.getAllVisitsByIdSeller = async (req, res) => {
-    console.log(req.req.headers.userId)
+    // console.log(typeof(req.headers.userid))
+
     try {
+        let idVendedor = req.headers.userid
         let visitas = await Client.find(
-            {
-                historial: {
-                        _id:req.headers.userId
-                    }
-            })
+            {"historial.idVendedor": idVendedor}
+            )
         res.json({visitas})
+        console.log(visitas)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message:"Error"
+        })
+    }
+}
+exports.getAllClients = async (req, res) => {
+    try {
+        let clientes = await Client.find({})
+        res.json({clientes})
+        console.log(clientes)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message:"Error"
+        })
+    }
+}
+exports.updateClient = async (req, res) => {
+
+    try {
+        const {client,id} = req.body
+        console.log(client)
+        console.log(id)
+
+        let clientes = await Client.findOneAndUpdate({
+            _id:id
+        },client)
+        
+        res.json({message:'success'})
+        // console.log(clientes)
     } catch (error) {
         console.log(error)
         res.status(500).json({
