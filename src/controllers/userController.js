@@ -14,6 +14,7 @@ exports.register = async(req,res)=>{
     // console.log(password.lenght())
     // console.log(typeof(userName))
     // console.log(typeof(password))
+    
     if(userName.length <4) throw "userNameLenght"
     if(password.length <6) throw "passwordLenght"
 

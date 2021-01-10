@@ -15,6 +15,7 @@ exports.register = async (req, res) => {
         adicional,
         vendedor,
         vendedorID,
+        direccionExacta,
     } = req.body;
     if (nombreComercial.lenght < 4) {
         throw "nombreLenght"
@@ -35,13 +36,10 @@ exports.register = async (req, res) => {
             adicional,
             vendedor,
             vendedorID,
+            direccionExacta,
             creadorID: req.payload.id
         })
-        // console.log(cliente)
-        // console.log(req.payload)
-        await cliente.save();
-        // let busqueda = await Client.find({creadorID:null})
-        // console.log(busqueda)
+        await cliente.save()
         res.json({ message: "clientCreated" })
     }
 }
