@@ -80,7 +80,6 @@ exports.getAllVisitsByIdSeller = async (req, res) => {
             {"historial.idVendedor": idVendedor}
             )
         res.json({visitas})
-        console.log(visitas)
     } catch (error) {
         console.log(error)
         res.status(500).json({
@@ -92,7 +91,6 @@ exports.getAllClients = async (req, res) => {
     try {
         let clientes = await Client.find({})
         res.json({clientes})
-        console.log(clientes)
     } catch (error) {
         console.log(error)
         res.status(500).json({
@@ -104,15 +102,11 @@ exports.updateClient = async (req, res) => {
 
     try {
         const {client,id} = req.body
-        console.log(client)
-        console.log(id)
-
         let clientes = await Client.findOneAndUpdate({
             _id:id
         },client)
         
         res.json({message:'success'})
-        // console.log(clientes)
     } catch (error) {
         console.log(error)
         res.status(500).json({

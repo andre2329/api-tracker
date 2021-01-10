@@ -73,7 +73,6 @@ exports.getAllUsers = async(req,res)=>{
     }
 }
 exports.updateUser = async(req,res)=>{
-    console.log(req.body)
     try {
         if(req.body.password){
             await User.findByIdAndUpdate({
