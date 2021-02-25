@@ -90,7 +90,7 @@ io.use(async (socket, next) => {
       // var hours = date.getHours();
       // var minutes = "0" + date.getMinutes();
       // var seconds = "0" + date.getSeconds();
-      console.log(data)
+      // console.log(data)
       // // Will display time in 10:30:23 format
       // var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
       // console.log(data.time)
