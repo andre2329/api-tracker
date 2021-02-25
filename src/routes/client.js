@@ -12,5 +12,6 @@ router.get("/getAllClients",auth,catchErrors(clientController.getAllClients))
 router.post("/register",auth,catchErrors(clientController.register))
 router.post("/updateVisit",auth,catchErrors(clientController.updateVisit))
 router.post("/updateClient",auth,catchErrors(clientController.updateClient))
+router.post("/setRoute",catchErrors(clientController.setRoute))
 
 module.exports = router;

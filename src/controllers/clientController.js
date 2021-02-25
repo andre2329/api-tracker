@@ -71,6 +71,13 @@ exports.updateVisit = async (req, res) => {
         })
     }
 }
+exports.setRoute = async (req, res) => {
+    try {
+        console.log(req.body)
+    } catch (error) {
+        console.log(error)
+    }
+}
 exports.getAllVisitsByIdSeller = async (req, res) => {
     // console.log(typeof(req.headers.userid))
 
