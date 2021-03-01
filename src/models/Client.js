@@ -4,6 +4,9 @@ const clientSchema = mongoose.Schema({
     nombreComercial:{
         type:String,
     },
+    ruc:{
+        type:String
+    },
     razonSocial:{
         type:String
     },

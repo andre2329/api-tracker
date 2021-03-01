@@ -8,6 +8,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/user',require('./src/routes/user'))
 app.use('/chatroom',require('./src/routes/chatroom'))
 app.use('/client',require('./src/routes/client'))
+app.use('/route',require('./src/routes/route'))
 //cross origin
 app.use(require('cors')())
 //setup 

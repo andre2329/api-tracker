@@ -3,7 +3,6 @@ const User = mongoose.model("User")
 const sha256 = require('js-sha256')
 const jwt = require('jsonwebtoken')
 
-
 exports.register = async(req,res)=>{
     // console.log(req.body)
     const {name,userName,password,lastName}=req.body;
@@ -50,18 +49,23 @@ exports.login = async(req,res)=>{
     })
 
 }
+exports.verifyLogin = async(req,res)=>{
+    const {id} = req.body
+    const user = await User.findById({
+        _id:id})
+    if(!user) throw "invalidUserName"
+    const token = await jwt.sign({id:user.id},process.env.SECRET)
+    res.json(
+    {
+        message:"success"
+    }
+    )
+
+}
 
 exports.getAllUsers = async(req,res)=>{
-    // const {name,userName,password,isSupervisor}=req.body;
-    // const emailRegex = /@gmail.com|@yahoo.com|@hotmail.com|@live.com/
-
-    // if(!emailRegex.test(email)) throw "Email is not supported from your domain."
-    // if(userName.lenght <4) throw "userNameLenght"
-    // if(password.lenght <6) throw "passwordLenght"
-    
-    // const users = await User.find({isSupervisor:false})
-    // console.log(req.headers)
     const users = await User.find({isSupervisor:false})
+    .select('name lastName _id userName isSupervisor')
     if(!users) throw "EmptyUsers"
     else{
         let respuesta = {
@@ -72,6 +76,31 @@ exports.getAllUsers = async(req,res)=>{
         
     }
 }
+exports.getRoutesById = async(req,res)=>{
+    const users = await User.find({isSupervisor:false})
+    .select('name lastName _id userName isSupervisor')
+    if(!users) throw "EmptyUsers"
+    else{
+        let respuesta = {
+            users,
+            message:'success'
+        }
+        res.json(respuesta)
+        
+    }
+
+    try {
+        let id = req.headers.userid
+        let recorrido = await User.findById(id).select('recorrido')
+        res.json({recorrido})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message:"Error"
+        })
+    }
+}
+
 exports.updateUser = async(req,res)=>{
     try {
         if(req.body.password){

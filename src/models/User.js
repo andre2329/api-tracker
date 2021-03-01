@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema({
     password:{
         type:String,
         required:'Password is required'
-    },
+    }
 },{
     timestamps:true
 }

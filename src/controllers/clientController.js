@@ -10,6 +10,7 @@ exports.register = async (req, res) => {
         departamento,
         pais,
         latitud,
+        ruc,
         longitud,
         telefono,
         adicional,
@@ -23,6 +24,7 @@ exports.register = async (req, res) => {
     else {
         const cliente = new Client({
             nombreComercial,
+            ruc,
             razonSocial,
             direccion,
             referencia,

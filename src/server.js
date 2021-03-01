@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
-
-
 const mongoose = require("mongoose")
 
 mongoose.connect(process.env.DATABASE,{
@@ -23,29 +21,31 @@ require('./models/User')
 require('./models/Chatroom')
 require('./models/Message')
 require('./models/Client')
+require('./models/Route')
 
 const app = require('../app')
 const Chatroom = require('./models/Chatroom')
 const User = require('./models/User')
 const Client = require('./models/Client')
-
+const Route = require('./models/Route')
 
 const server = app.listen(process.env.PORT || 5000,'0.0.0.0',()=>{
     console.log('server started on port '+process.env.PORT)
 })
 
 const io = require("socket.io")(server);
+const RouteMongoose = mongoose.model("Route")
 
 io.use(async (socket, next) => {
 
     // console.log('======nuevo====')
     // console.log(socket.handshake.query.token)
     try {
+
       const token = socket.handshake.query.token;
       const payload = await jwt.verify(token, process.env.SECRET);
       socket.userId = payload.id;
       // console.log("userId:")
-      // console.log(socket.userId)
       next()
     } catch (err) {
         console.log('[ERROR] [Name]'+ err)
@@ -55,7 +55,6 @@ io.use(async (socket, next) => {
   });
 
   let totalUsers = 0
-
   io.on("connection", (socket) => {
     console.log("Connected: " + socket.userId);
     socket.on("disconnect", () => {
@@ -83,17 +82,27 @@ io.use(async (socket, next) => {
           userId: socket.userId,
           date
         });
-      // console.log('==============')
-      // console.log('[ID] '+id)
-      // console.log('[data] '+data.time)
-      
-      // var hours = date.getHours();
-      // var minutes = "0" + date.getMinutes();
-      // var seconds = "0" + date.getSeconds();
-      // console.log(data)
-      // // Will display time in 10:30:23 format
-      // var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-      // console.log(data.time)
-      // console.log(formattedTime);
+      date = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()
+      // console.log(date)
+        try{
+        
+        await  RouteMongoose.findOneAndUpdate(
+            {
+              idVendedor:id,
+              fecha:date
+            },
+            {
+                $push:{
+                  route:{
+                    latitude: data.latitude,
+                    longitude: data.longitude
+                  }
+                
+              }
+        }, {upsert:true,new: true,setDefaultsOnInsert: true,useFindAndModify:false})
+        }catch(e){
+          console.log(e)
+        }
+        
     });
   });
