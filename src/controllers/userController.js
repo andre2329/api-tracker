@@ -64,7 +64,12 @@ exports.verifyLogin = async(req,res)=>{
 }
 
 exports.getAllUsers = async(req,res)=>{
-    const users = await User.find({isSupervisor:false})
+    // console.log(req.headers)
+    let option = {}
+    if(!req.headers.all){
+        option = {isSupervisor:false}
+    }
+    const users = await User.find(option)
     .select('name lastName _id userName isSupervisor')
     if(!users) throw "EmptyUsers"
     else{

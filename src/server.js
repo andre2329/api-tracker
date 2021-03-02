@@ -37,15 +37,11 @@ const io = require("socket.io")(server);
 const RouteMongoose = mongoose.model("Route")
 
 io.use(async (socket, next) => {
-
-    // console.log('======nuevo====')
-    // console.log(socket.handshake.query.token)
     try {
 
       const token = socket.handshake.query.token;
       const payload = await jwt.verify(token, process.env.SECRET);
       socket.userId = payload.id;
-      // console.log("userId:")
       next()
     } catch (err) {
         console.log('[ERROR] [Name]'+ err)
@@ -60,7 +56,6 @@ io.use(async (socket, next) => {
     socket.on("disconnect", () => {
       console.log("Disconnected: " + socket.userId);
     });
-  
     socket.on("joinRoom", ({ id }) => {
       socket.join(id);
       totalUsers++
@@ -78,6 +73,11 @@ io.use(async (socket, next) => {
     socket.on("chatRoomLocation", async ({ id, data }) => {
       let date = new Date(data.time);
         io.to(id).emit("newLocation", {
+          data,
+          userId: socket.userId,
+          date
+        });
+        io.to('generalData').emit("newLocation", {
           data,
           userId: socket.userId,
           date
