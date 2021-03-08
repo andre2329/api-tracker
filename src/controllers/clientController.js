@@ -81,8 +81,6 @@ exports.setRoute = async (req, res) => {
     }
 }
 exports.getAllVisitsByIdSeller = async (req, res) => {
-    // console.log(typeof(req.headers.userid))
-
     try {
         let idVendedor = req.headers.userid
         let visitas = await Client.find(
@@ -101,7 +99,6 @@ exports.getAllClients = async (req, res) => {
         let clientes = await Client.find({})
         res.json({clientes})
     } catch (error) {
-        console.log(error)
         res.status(500).json({
             message:"Error"
         })
@@ -115,6 +112,20 @@ exports.updateClient = async (req, res) => {
             _id:id
         },client)
         
+        res.json({message:'success'})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message:"Error"
+        })
+    }
+}
+exports.delete = async (req, res) => {
+    try {
+        const {id} = req.body
+        let clientes = await Client.findOneAndDelete({
+            _id:id
+        })
         res.json({message:'success'})
     } catch (error) {
         console.log(error)

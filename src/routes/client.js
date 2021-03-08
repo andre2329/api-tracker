@@ -13,5 +13,6 @@ router.post("/register",auth,catchErrors(clientController.register))
 router.post("/updateVisit",auth,catchErrors(clientController.updateVisit))
 router.post("/updateClient",auth,catchErrors(clientController.updateClient))
 router.post("/setRoute",catchErrors(clientController.setRoute))
+router.delete("/",auth,catchErrors(clientController.delete))
 
 module.exports = router;

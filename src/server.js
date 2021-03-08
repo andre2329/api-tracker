@@ -52,6 +52,7 @@ io.use(async (socket, next) => {
 
   let totalUsers = 0
   io.on("connection", (socket) => {
+    
     console.log("Connected: " + socket.userId);
     socket.on("disconnect", () => {
       console.log("Disconnected: " + socket.userId);

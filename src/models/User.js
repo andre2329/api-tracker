@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema({
         type:Boolean,
         required:'isSupervisor is required'
     },
+    isAdmin:{
+        type:Boolean,
+        required:'isSupervisor is required'
+    },
     password:{
         type:String,
         required:'Password is required'
